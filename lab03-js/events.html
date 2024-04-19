@@ -5,6 +5,13 @@
     <meta charset="utf-8">
     <title>Página de eventos</title>
     <style>
+        /* Style for the container of the list */
+        .event-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
         /* Style for each event item */
         .event-item {
             /* Orange background color */
@@ -17,6 +24,14 @@
             padding: 10px 20px;
             /* Spacing between items */
             margin-bottom: 10px;
+        }
+
+        .category {
+            background-color: #000;
+            color: #fff;
+            padding: 5px;
+            margin-right: 5px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -48,15 +63,36 @@
                         // clear all elements
                         event.innerHTML = "";
                         
-                        addItem(response.data.title.rendered, "Título");
-                        addItem(response.data.StartDate, "Início");
-                        
-                        /* 
-                            Adcionar:
-                             - link para o evento (campo 'response.data.link')
-                             - imagem sobre o evento (campo 'response.data.featured_media_large')
-                             - categorias do evento (campo 'response.data.categories')
-                        */
+                        addItem(response.data.title.rendered, 'Título');
+                        addItem(response.data.StartDate, 'Início');
+
+                        // Add image
+                        let imgDiv = document.createElement("div");
+                        imgDiv.className = "event-item";
+                        imgDiv.innerHTML = `<img src="${response.data.featured_media_large}" alt="${response.data.title.rendered}">`;
+                        event.appendChild(imgDiv);
+
+                        // Add link
+                        let aDiv = document.createElement("div");
+                        aDiv.className = "event-item";
+                        let anchor = document.createElement("a");
+                        anchor.href = response.data.link;
+                        anchor.innerHTML = "Ver mais sobre o evento";
+                        aDiv.appendChild(anchor);
+                        event.appendChild(aDiv);
+
+                        // Add categories
+                        let categoriesDiv = document.createElement("div");
+                        categoriesDiv.className = "event-item";
+                        let categories = response.data.categories_name_list;
+                        console.log(response.data.categories_name_list);
+                        for (category in categories) {
+                            span = document.createElement("span");
+                            span.className = "category";
+                            span.innerHTML = category;
+                            categoriesDiv.appendChild(span);
+                        }
+                        event.appendChild(categoriesDiv);
 
                     } else {
                         console.error('Request failed with status:', xhr.status);
@@ -70,7 +106,7 @@
             let div = document.createElement("div");
             div.className = "event-item";
             div.innerHTML = `<strong>${label}:</strong> ${value}`;
-            event.appendChild(span);
+            event.appendChild(div);
         }
         document.querySelector("button").addEventListener("click", getData);
     </script>
