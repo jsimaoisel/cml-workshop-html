@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulário de Sugestões do Munícipe</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Formulário de Envio de Sugestões</h1>
+  <form action="..." method="post">
+    <label for="name">Nome:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="suggestionType">Tipo de Sugestão:</label><br>
+    <select id="suggestionType" name="suggestion_type">
+      <option value="urbanism">Urbanismo</option>
+      <option value="environment">Ambiente</option>
+      <option value="mobility">Mobilidade</option>
+      <option value="culture">Cultura</option>
+      <option value="sports">Desporto</option>
+      <option value="other">Outra</option>
+    </select><br><br>
+
+    <label for="message">Sugestão:</label><br>
+    <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+
+    <input type="..." value="Enviar">
+  </form>
+</body>
+</html>
