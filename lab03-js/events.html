@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <title>Página de eventos</title>
+    <style>
+        /* Style for each event item */
+        .event-item {
+            /* Orange background color */
+            background-color: #ffa500;
+            /* White text color */
+            color: #fff;
+            /* Rounded corners */
+            border-radius: 20px;
+            /* Padding inside the box */
+            padding: 10px 20px;
+            /* Spacing between items */
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Procura de Eventos em Lisboa</h1>
+
+    <input type="text" id="search" placeholder="ID do evento">
+    <button>Procurar</button>
+
+    <div id="event">
+
+    </div>
+
+    <script>
+        const API = "https://www.agendalx.pt/wp-json/agendalx/v1/events/";
+        function getData(event) {
+            let eventID = document.getElementById("search").value;
+            let text = document.getElementById("title");
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', API + eventID, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        console.log(response);
+                        
+                        let event = document.getElementById("event");
+                        // clear all elements
+                        event.innerHTML = "";
+                        
+                        addItem(response.data.title.rendered, "Título");
+                        addItem(response.data.StartDate, "Início");
+                        
+                        /* 
+                            Adcionar:
+                             - link para o evento (campo 'response.data.link')
+                             - imagem sobre o evento (campo 'response.data.featured_media_large')
+                             - categorias do evento (campo 'response.data.categories')
+                        */
+
+                    } else {
+                        console.error('Request failed with status:', xhr.status);
+                    }
+                }
+            };
+            xhr.send();
+        }
+        function addItem(value, label) {
+            let event = document.getElementById("event");
+            let div = document.createElement("div");
+            div.className = "event-item";
+            div.innerHTML = `<strong>${label}:</strong> ${value}`;
+            event.appendChild(span);
+        }
+        document.querySelector("button").addEventListener("click", getData);
+    </script>
+</body>
